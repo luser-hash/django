@@ -6,12 +6,19 @@ This project was created as a learning exercise to understand Django’s MVC (Mo
 🚀 Features
 ------------------------
 ✏️ Create new tasks with title, description, and optional due date
+
 👀 Read and view all tasks in a clean, minimal UI
+
 🔄 Update task details or mark tasks as done
+
 ❌ Delete tasks safely
+
 ⏰ Track due dates and creation times
+
 ⚡ Instant status toggle for marking tasks as completed
+
 🎨 Responsive and modern design built with pure HTML & CSS
+
 
 🧰 Technologies Used
 -------------------------
@@ -54,7 +61,10 @@ http://127.0.0.1:8000/
 🌟 Future Improvements
 ----------------------------
 User authentication (login/signup)
+
 Priority levels or categories
+
 Ajax-based toggling (no page reload)
+
 Dark mode
 
