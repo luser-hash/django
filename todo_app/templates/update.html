@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update Todo</title>
+  <style>
+    /* ==== borrowed theme from home.html (kept minimal and in-sync) ==== */
+    :root {
+      --primary: #6366F1;
+      --primary-dark: #4F46E5;
+      --secondary: #F3F4F6;
+      --text: #1F2937;
+      --text-light: #6B7280;
+      --border: #E5E7EB;
+      --bg: #FFFFFF;
+      --shadow: rgba(0,0,0,0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; color: var(--text);
+    }
+    .container { width: 100%; max-width: 600px; background: var(--bg); border-radius: 20px; box-shadow: 0 20px 60px var(--shadow); overflow: hidden; }
+    header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; }
+    h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.4px; }
+    .content { padding: 22px; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: var(--text); }
+    .form-input {
+      width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; transition: all .2s ease;
+    }
+    .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--secondary); }
+    .form-textarea { resize: vertical; min-height: 110px; font-family: inherit; }
+
+    .checkbox-row { display: flex; align-items: center; gap: 10px; }
+
+    .actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
+    .btn { padding: 10px 18px; border-radius: 8px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; transition: all .2s ease; text-decoration: none; display: inline-block; }
+    .btn-secondary { background: var(--secondary); color: var(--text); }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 14px rgba(99,102,241,.35); }
+
+    .help { color: var(--text-light); font-size: 12px; margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Update Task</h1>
+      <a href="{% url 'home' %}" class="btn btn-secondary" style="background:white;color:var(--primary);">Back</a>
+    </header>
+
+    <div class="content">
+      <form method="post" action="{% url 'update' todo.pk %}">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label class="form-label" for="id_title">Title</label>
+          <input type="text" name="title" value="{{todo.title}}" maxlength="50" required id="id_title" class="form-input" placeholder="Enter task title" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="id_description">Description (optional)</label>
+          <textarea name="description" value="{{todo.description}}" id="id_description" class="form-input form-textarea" placeholder="Add more details..."></textarea>
+        </div>
+
+        <div class="form-group checkbox-row">
+          <input type="checkbox" name="is_done" id="id_is_done" {% if todo.is_done %}checked{% endif %} />
+          <label class="form-label" for="id_is_done" style="margin: 0;">Mark as done</label>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="id_due_at">Due date & time</label>
+          <!-- Map to models.DateTimeField due_at -->
+          <input type="datetime-local" name="due_at" value="{{todo.due_at|date:'Y-m-d\\TH:i'}}" id="id_due_at" class="form-input" />
+          <div class="help">Leave empty if there's no deadline.</div>
+        </div>
+
+        <div class="actions">
+          <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary">Update Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
